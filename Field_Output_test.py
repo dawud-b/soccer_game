@@ -10,7 +10,7 @@ def row_preprint(row, part):
       if (part == 1 or part == 2): print("    |   ", end='')
       else: print("+---|   ", end='')
     case 2:
-      print("|   |   ")
+      print("|   |   ", end='')
     case 3:
       if (part == 2 or part == 3): print("    |   ", end='')
       else: print("+---|   ", end='')
@@ -89,5 +89,5 @@ def print_field(row, col, p1_owner):
   
 
 for i in range(-3, 3):
-  print_field(3, i, True)
+  print_field(2, i, False)
   print()
