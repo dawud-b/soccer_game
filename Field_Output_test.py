@@ -7,13 +7,13 @@ def print_space(count):
 def row_preprint(row, part):
   match row:
     case 1:
-      if (part == 1 or part == 2): print("    |   ", end='')
-      else: print("+---|   ", end='')
+      if (part == 1 or part == 2): print("    | ", end='')
+      else: print("+---| ", end='')
     case 2:
-      print("|   |   ", end='')
+      print("|   | ", end='')
     case 3:
-      if (part == 2 or part == 3): print("    |   ", end='')
-      else: print("+---|   ", end='')
+      if (part == 2 or part == 3): print("    | ", end='')
+      else: print("+---| ", end='')
 
 def row_postprint(row, part):
   match row:
@@ -35,14 +35,14 @@ def print_players(p1_owner, col, row):
   row_preprint(row, 1)
   print_space(spaces)
   print(" O      O ", end='')
-  print_space(50 - spaces)
+  print_space(52 - spaces)
   row_postprint(row, 1)
     
   # second line
   row_preprint(row, 2)
   print_space(spaces)
   print("/|\\    /|\\", end='')
-  print_space(50 - spaces)
+  print_space(52 - spaces)
   row_postprint(row, 2)
 
   # third line
@@ -53,7 +53,7 @@ def print_players(p1_owner, col, row):
     print("*   / \\", end='')
   else:
     print("   */ \\", end='')
-  print_space(50 - spaces)
+  print_space(52 - spaces)
   row_postprint(row, 3)
 
 
@@ -87,7 +87,7 @@ def print_field(row, col, p1_owner):
     
     
   
-
-for i in range(-3, 3):
-  print_field(2, i, False)
-  print()
+for i in range(-3, 4):
+  for j in range (1, 4):
+    print_field(j, i, True)
+    print()
