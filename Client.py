@@ -24,7 +24,7 @@ def receive_game_state(sock):
     except:
         return None
 
-def display_game_state(state, client_player_id, p1_input):
+def display_game_state(state, client_player_id, player_input):
     clear_screen()
     print("#### Soccer Game ####\n")
     print(f"Your Player ID: {client_player_id.upper()}\n")
@@ -43,11 +43,12 @@ def display_game_state(state, client_player_id, p1_input):
     print(f"Game Phase: {'Shooting' if state['shoot_phase'] else 'Passing'}")
     print(f"\n--- {state['message']} ---\n")
 
+    # Finds the row of the player (1-3, if 4-6 just subtract 3)
+    if player_input > 3:
+        player_input = player_input - 3
     # Print visual field
-    if p1_input > 3:
-        p1_input = p1_input - 3
     has_ball = (state['p1_ownership'] and p1_is_you) or (not state['p1_ownership'] and p2_is_you)
-    print_field(col=state['position'], p1_owner=state['p1_ownership'], row=p1_input)
+    print_field(col=state['position'], p1_owner=state['p1_ownership'], p1_row=player_input, p2_row=player_input)  # TODO: CURRENTLY PRINTS BOTH PLAYERS AT LOCAL PLAYERS MOVE
 
     if state["status"] == "finished":
         print("\n--- GAME OVER ---")

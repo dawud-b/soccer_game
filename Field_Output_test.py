@@ -1,9 +1,11 @@
 ### Soccer Game Field Output ###
 
+# prints the input number of spaces
 def print_space(count):
   for i in range(count):
       print(" ", end='')
 
+# prints the edges/net on the left of the field. Three rows with 3 subrow "parts"
 def row_preprint(row, part):
   match row:
     case 1:
@@ -15,6 +17,7 @@ def row_preprint(row, part):
       if (part == 2 or part == 3): print("    | ", end='')
       else: print("+---| ", end='')
 
+# prints the edges/net on the right of the field. Three rows with 3 subrow "parts"
 def row_postprint(row, part):
   match row:
     case 1:
@@ -26,7 +29,7 @@ def row_postprint(row, part):
       if (part == 2 or part == 3): print(" |")
       else: print(" |---+")
 
-# prints one player in its locations.
+# prints one player for the given row/col.
 def print_player(p1_owner, col, row, player):
   spaces = (col + 3) * 8 + 3
 
@@ -64,7 +67,7 @@ def print_player(p1_owner, col, row, player):
   print_space(52 - spaces)
   row_postprint(row, 3)
 
-# prints both players at same location.
+# prints both players at same col/row.
 def print_both_players(p1_owner, col, row):
   spaces = (col + 3) * 8 + 3
 
@@ -94,10 +97,9 @@ def print_both_players(p1_owner, col, row):
   row_postprint(row, 3)
 
 
+# main function to print the whole field
 def print_field(p1_row, p2_row, col, p1_owner):
   print("    +––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––+")
-  
-  # 61 total spaces between each | !!!!
 
   if p1_row == 1 and p2_row == 1:
     print_both_players(p1_owner, col, p1_row)
@@ -135,15 +137,10 @@ def print_field(p1_row, p2_row, col, p1_owner):
   print("    +––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––+")
     
     
-# for j in range (1, 4):
-#   for i in range(-3, 4):
-#     print_field(j, i, True)
-#     print()
-#     print_field(j, i, False)
-#     print()
 
+# Prints all possible combinations.
 for i in range(-3, 4):
-  print_field(p1_row=1, p2_row=2, col=i, p1_owner=True)
-  print_field(p1_row=1, p2_row=3, col=i, p1_owner=True)
-  print_field(p1_row=2, p2_row=2, col=i, p1_owner=True)
-  print_field(p1_row=2, p2_row=1, col=i, p1_owner=True)
+  for j in range(1, 4):
+    for k in range(1, 4):
+      print_field(p1_row=k, p2_row=j, col=i, p1_owner=True)
+      print_field(p1_row=k, p2_row=j, col=i, p1_owner=False)

@@ -1,6 +1,6 @@
 # soccer_game.py
 # This file contains the core game logic for the soccer game.
-from Field_Output_test import print_players
+from Field_Output_test import print_field
 
 # valid inputs
 SHOOTING_INPUTS = ("4", "5", "6")
@@ -49,7 +49,7 @@ def check_penalty(p1_ownership, shoot_phase, p1_input, p2_input, position):
       penalty_message = "PENALTY! P2 tried to pass!"
   return p1_ownership, position, penalty_message
 
-from Field_Output_test import print_players
+from Field_Output_test import print_field
 
 def compare_selections(p1_ownership, shoot_phase, p1_input, p2_input, position):
   print(f"Game Logic: P1: {p1_input}, P2: {p2_input}")
@@ -68,9 +68,14 @@ def compare_selections(p1_ownership, shoot_phase, p1_input, p2_input, position):
   else:
     shoot_phase = False
 
-  # 🟢 VISUAL OUTPUT
-  row = 2  # field height - static
-  print_players(p1_ownership, position, row)
+  # VISUAL OUTPUT
+  p1_row = p1_input
+  if p1_row > 3:
+    p1_row = p1_row - 3
+  p2_row = p2_input
+  if p2_row > 3:
+    p2_row = p2_row - 3
+  print_field(p1_row, p2_row, col=position, p1_owner=p1_ownership)
 
   return p1_ownership, shoot_phase, position, penalty_message
 
