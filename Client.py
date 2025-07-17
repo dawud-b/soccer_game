@@ -4,6 +4,8 @@ import sys
 import os
 from Field_Output_test import print_field
 
+valid_inputs = ("1", "2", "3", "4", "5", "6")
+
 # Function to clear the console screen
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -24,7 +26,7 @@ def receive_game_state(sock):
     except:
         return None
 
-def display_game_state(state, client_player_id, player_input):
+def display_game_state(state, client_player_id):
     clear_screen()
     print("#### Soccer Game ####\n")
     print(f"Your Player ID: {client_player_id.upper()}\n")
@@ -44,11 +46,19 @@ def display_game_state(state, client_player_id, player_input):
     print(f"\n--- {state['message']} ---\n")
 
     # Finds the row of the player (1-3, if 4-6 just subtract 3)
-    if player_input > 3:
-        player_input = player_input - 3
+    if state['p1_input'] is None:
+        p1_input = 2 # middle row
+    else:
+        p1_input = state['p1_input']
+
+    if state['p2_input'] is None:
+        p2_input = 2 # middle row
+    else:
+        p2_input = state['p2_input']
+    
     # Print visual field
     has_ball = (state['p1_ownership'] and p1_is_you) or (not state['p1_ownership'] and p2_is_you)
-    print_field(col=state['position'], p1_owner=state['p1_ownership'], p1_row=player_input, p2_row=player_input)  # TODO: CURRENTLY PRINTS BOTH PLAYERS AT LOCAL PLAYERS MOVE
+    print_field(col=state['position'], p1_owner=state['p1_ownership'], p1_row=p1_input, p2_row=p2_input)  # TODO: CURRENTLY PRINTS BOTH PLAYERS AT LOCAL PLAYERS MOVE
 
     if state["status"] == "finished":
         print("\n--- GAME OVER ---")
@@ -72,15 +82,13 @@ def main():
         client_player_id = initial_state.get("your_player_id")
         if not client_player_id:
             return
-        
-        move=0
 
         while True:
             state = receive_game_state(client_socket)
             if state is None:
                 break
 
-            display_game_state(state, client_player_id, int(move))
+            display_game_state(state, client_player_id)
 
             if state["status"] == "finished":
                 user_action = input("Game over. Type 'reset_game' to play again or 'exit': ").strip().lower()
