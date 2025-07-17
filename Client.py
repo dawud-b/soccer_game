@@ -24,7 +24,7 @@ def receive_game_state(sock):
     except:
         return None
 
-def display_game_state(state, client_player_id):
+def display_game_state(state, client_player_id, p1_input):
     clear_screen()
     print("#### Soccer Game ####\n")
     print(f"Your Player ID: {client_player_id.upper()}\n")
@@ -44,8 +44,10 @@ def display_game_state(state, client_player_id):
     print(f"\n--- {state['message']} ---\n")
 
     # Print visual field
+    if p1_input > 3:
+        p1_input = p1_input - 3
     has_ball = (state['p1_ownership'] and p1_is_you) or (not state['p1_ownership'] and p2_is_you)
-    print_field(col=state['position'], p1_owner=state['p1_ownership'], row=2)
+    print_field(col=state['position'], p1_owner=state['p1_ownership'], row=p1_input)
 
     if state["status"] == "finished":
         print("\n--- GAME OVER ---")
@@ -69,13 +71,15 @@ def main():
         client_player_id = initial_state.get("your_player_id")
         if not client_player_id:
             return
+        
+        move=0
 
         while True:
             state = receive_game_state(client_socket)
             if state is None:
                 break
 
-            display_game_state(state, client_player_id)
+            display_game_state(state, client_player_id, int(move))
 
             if state["status"] == "finished":
                 user_action = input("Game over. Type 'reset_game' to play again or 'exit': ").strip().lower()
