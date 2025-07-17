@@ -2,7 +2,7 @@ import socket
 import json
 import sys
 import os
-from Field_Output_test import print_players
+from Field_Output_test import print_field
 
 # Function to clear the console screen
 def clear_screen():
@@ -45,7 +45,7 @@ def display_game_state(state, client_player_id):
 
     # Print visual field
     has_ball = (state['p1_ownership'] and p1_is_you) or (not state['p1_ownership'] and p2_is_you)
-    print_players(state['p1_ownership'], state['position'], row=2)
+    print_field(col=state['position'], p1_owner=state['p1_ownership'], row=2)
 
     if state["status"] == "finished":
         print("\n--- GAME OVER ---")

@@ -18,13 +18,13 @@ def row_preprint(row, part):
 def row_postprint(row, part):
   match row:
     case 1:
-      if (part == 1 or part == 2): print("|")
-      else: print("|---+")
+      if (part == 1 or part == 2): print(" |")
+      else: print(" |---+")
     case 2:
-      print("|   |")
+      print(" |   |")
     case 3:
-      if (part == 2 or part == 3): print("|")
-      else: print("|---+")
+      if (part == 2 or part == 3): print(" |")
+      else: print(" |---+")
 
 
 
@@ -58,36 +58,37 @@ def print_players(p1_owner, col, row):
 
 
 def print_field(row, col, p1_owner):
-  print("    +–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––+")
+  print("    +––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––+")
   
   # 61 total spaces between each | !!!!
 
   if row != 1:
-    print ("    |                                                               |\n"
-          +"    |                                                               |\n"
-          +"+---|                                                               |---+")
+    print ("    |                                                                |\n"
+          +"    |                                                                |\n"
+          +"+---|                                                                |---+")
   else:
     print_players(p1_owner, col, row)
 
   if row != 2:
-    print ("|   |                                                               |   |\n"
-          +"|   |                                                               |   |\n"
-          +"|   |                                                               |   |")
+    print ("|   |                                                                |   |\n"
+          +"|   |                                                                |   |\n"
+          +"|   |                                                                |   |")
   else:
     print_players(p1_owner, col, row)
 
   if row != 3:
-    print ("+---|                                                               |---+\n"
-          +"    |                                                               |\n"
-          +"    |                                                               |")
+    print ("+---|                                                                |---+\n"
+          +"    |                                                                |\n"
+          +"    |                                                                |")
   else:
     print_players(p1_owner, col, row)
 
-  print("    +–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––+")
+  print("    +––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––+")
     
     
-  
-for i in range(-3, 4):
-  for j in range (1, 4):
+for j in range (1, 4):
+  for i in range(-3, 4):
     print_field(j, i, True)
+    print()
+    print_field(j, i, False)
     print()
