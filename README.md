@@ -2,7 +2,7 @@
 
 This is a simple soccer game made in python that can be ran in your terminal.
 
-Server, Client View, and multiplayer - Gurumanie Singh
+Server, Client View, and multiplayer - Gurumanie Singh  
 Game Logic and Design - Dawud Benedict
 
 ### How to play:
