@@ -1,7 +1,9 @@
 import socket
 import json
 import threading
-import Soccer_Game # Import your game logic file
+import Soccer_Game
+import pickle
+from Soccer_Game import compare_selections
 
 # Global game state (managed by the server)
 game_state = {

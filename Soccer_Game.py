@@ -1,5 +1,6 @@
 # soccer_game.py
 # This file contains the core game logic for the soccer game.
+from Field_Output_test import print_players
 
 # valid inputs
 SHOOTING_INPUTS = ("4", "5", "6")
@@ -48,15 +49,11 @@ def check_penalty(p1_ownership, shoot_phase, p1_input, p2_input, position):
       penalty_message = "PENALTY! P2 tried to pass!"
   return p1_ownership, position, penalty_message
 
+from Field_Output_test import print_players
+
 def compare_selections(p1_ownership, shoot_phase, p1_input, p2_input, position):
-  """
-  Compares player selections, updates game state (ownership, position, shoot phase).
-  Returns updated ownership, shoot_phase, position, and any penalty message.
-  """
-  # Print inputs (for server console/logging)
   print(f"Game Logic: P1: {p1_input}, P2: {p2_input}")
 
-  # compare inputs. If matching ownership changes
   if p1_input == p2_input:
     p1_ownership = not p1_ownership
   elif p1_ownership:
@@ -64,17 +61,18 @@ def compare_selections(p1_ownership, shoot_phase, p1_input, p2_input, position):
   else:
     position += 1
 
-  # check for penalty
   p1_ownership, position, penalty_message = check_penalty(p1_ownership, shoot_phase, p1_input, p2_input, position)
 
-  # update shoot_phase
   if (position == 3 and not p1_ownership) or (position == -3 and p1_ownership):
     shoot_phase = True
   else:
     shoot_phase = False
 
-  return p1_ownership, shoot_phase, position, penalty_message
+  # 🟢 VISUAL OUTPUT
+  row = 2  # field height - static
+  print_players(p1_ownership, position, row)
 
+  return p1_ownership, shoot_phase, position, penalty_message
 
 def reset_game_logic():
   """
@@ -86,5 +84,6 @@ def reset_game_logic():
   p1_score = 0
   p2_score = 0
   position = 0
+  
   return p1_ownership, shoot_phase, p1_score, p2_score, position
 
