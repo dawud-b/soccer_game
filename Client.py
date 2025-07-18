@@ -45,20 +45,43 @@ def display_game_state(state, client_player_id):
     print(f"Game Phase: {'Shooting' if state['shoot_phase'] else 'Passing'}")
     print(f"\n--- {state['message']} ---\n")
 
-    # Finds the row of the player (1-3, if 4-6 just subtract 3)
+# Finds the row of the player (1-3, if 4-6 just subtract 3)
     if state['p1_input'] is None:
-        p1_input = 2 # middle row
+        p1_row = 2 # middle row
     else:
-        p1_input = state['p1_input']
+        p1_row = state['p1_input']
+    if p1_row > 3:
+        p1_row = p1_row - 3
 
     if state['p2_input'] is None:
-        p2_input = 2 # middle row
+        p2_row = 2 # middle row
     else:
-        p2_input = state['p2_input']
-    
+        p2_row = state['p2_input']
+    if p2_row > 3:
+        p2_row = p2_row - 3
+
+    if p1_is_you and state['p1_ownership'] and state['turn']=="player1":        # p1 owns. First move. Let p1 see new p1 and prev p2
+        p2_row = state['p2_row']
+    elif p1_is_you and state['p1_ownership']:                                   # p1 owns. Second move. Let p1 see p1 prev and new p2.
+        p1_row = state['p1_row']
+    elif p1_is_you and not state['p1_ownership'] and state['turn']=="player2":  # p2 owns. First move. Let p1 see prev p2 and prev p1
+        p2_row = state['p2_row']
+        p1_row = state['p1_row']
+    #                                                                           # p2 owns. Second move. Let p1 see p1 and p2 (No change)
+
+    # same for p2
+    if p2_is_you and state['p1_ownership'] and state['turn']=="player1":        # p1 owns. First move. Let p2 see prev p1 and prev p2
+        p2_row = state['p2_row']
+        p1_row = state['p1_row']
+    elif p2_is_you and not state['p1_ownership'] and state['turn']=="player1":  # p2 owns. Second move. Let p2 see new p1 and prev p2.
+        p2_row = state['p2_row']
+    elif p2_is_you and not state['p1_ownership'] and state['turn']=="player2":  # p2 owns. First move. Let p2 see prev p1 and new p2
+        p1_row = state['p1_row']
+    #                                                                           # p1 owns. Second move. Let p2 see p1 and p2 (No change)
+
     # Print visual field
     has_ball = (state['p1_ownership'] and p1_is_you) or (not state['p1_ownership'] and p2_is_you)
-    print_field(col=state['position'], p1_owner=state['p1_ownership'], p1_row=p1_input, p2_row=p2_input)  # TODO: CURRENTLY PRINTS BOTH PLAYERS AT LOCAL PLAYERS MOVE
+    print_field(col=state['position'], p1_owner=state['p1_ownership'], p1_row=p1_row, p2_row=p2_row)
 
     if state["status"] == "finished":
         print("\n--- GAME OVER ---")
@@ -69,9 +92,11 @@ def display_game_state(state, client_player_id):
         print(f"It's {state['turn'].upper()}'s turn. Please wait...")
 
 def main():
+    #################### HOST AND PORT ########################
     HOST = '127.0.0.1'
     PORT = 12345
-
+    ###########################################################
+    
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         client_socket.connect((HOST, PORT))
@@ -83,11 +108,13 @@ def main():
         if not client_player_id:
             return
 
+        # Main Loop
         while True:
             state = receive_game_state(client_socket)
             if state is None:
                 break
 
+            # display GUI
             display_game_state(state, client_player_id)
 
             if state["status"] == "finished":
