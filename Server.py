@@ -14,6 +14,8 @@ game_state = {
     "position": 0,  # 0 means middle of field. +3 is P1 goal, -3 is P2 goal
     "p1_input": None,
     "p2_input": None,
+    "p1_row": 2, # prev row that player was at. Starts at row 2 (middle)
+    "p2_row": 2,
     "turn": "player1",  # 'player1' or 'player2'
     "status": "waiting_for_players", # 'waiting_for_players', 'playing', 'finished'
     "message": "Waiting for players to join...",
@@ -37,6 +39,8 @@ def reset_game_state_server():
     game_state["position"] = position
     game_state["p1_input"] = None
     game_state["p2_input"] = None
+    game_state["p1_row"] = 2
+    game_state["p2_row"] = 2
     game_state["turn"] = "player1" # Always start with player1's turn after reset
     game_state["status"] = "playing"
     game_state["message"] = "Game reset! Player 1's turn."
@@ -153,7 +157,17 @@ def handle_client(conn, addr, player_id):
                             game_state["message"] = "--- Player 2 Wins! ---"
                             game_state["status"] = "finished"
 
-                        # Reset inputs for next round
+                        # Save prev loaction
+                        if int(game_state["p1_input"]) > 3:
+                            game_state["p1_row"] = int(game_state["p1_input"]) - 3
+                        else:
+                            game_state["p1_row"] = int(game_state["p1_input"])
+                        if int(game_state["p2_input"]) > 3:
+                            game_state["p2_row"] = int(game_state["p2_input"]) - 3
+                        else:
+                            game_state["p2_row"] = int(game_state["p2_input"])
+
+                        # then Reset inputs for next round
                         game_state["p1_input"] = None
                         game_state["p2_input"] = None
 
@@ -162,6 +176,7 @@ def handle_client(conn, addr, player_id):
                             game_state["turn"] = "player1" if game_state["p1_ownership"] else "player2"
 
                     broadcast_game_state()
+                    
                 elif player_input_str == "reset_game":
                     reset_game_state_server() # Use the server's reset wrapper
                     broadcast_game_state()
