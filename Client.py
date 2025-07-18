@@ -69,7 +69,8 @@ def display_game_state(state, client_player_id):
         print(f"It's {state['turn'].upper()}'s turn. Please wait...")
 
 def main():
-    HOST = '127.0.0.1'
+    # HOST = '127.0.0.1'
+    HOST = '10.48.190.208'
     PORT = 12345
 
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
