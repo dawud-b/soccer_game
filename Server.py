@@ -260,6 +260,7 @@ def start_server(host, port):
         server_socket.close()
 
 if __name__ == "__main__":
-    HOST = '127.0.0.1' # Standard loopback interface address (localhost)
+    # HOST = '127.0.0.1' # Standard loopback interface address (localhost)
+    HOST = '10.48.190.208'
     PORT = 12345       # Arbitrary non-privileged port
     start_server(HOST, PORT)

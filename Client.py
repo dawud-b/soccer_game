@@ -92,8 +92,9 @@ def display_game_state(state, client_player_id):
         print(f"It's {state['turn'].upper()}'s turn. Please wait...")
 
 def main():
+    # HOST = '127.0.0.1'
+    HOST = '10.48.190.208'
     #################### HOST AND PORT ########################
-    HOST = '127.0.0.1'
     PORT = 12345
     ###########################################################
     
