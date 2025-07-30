@@ -39,7 +39,7 @@ A real-time, two-player soccer game playable directly in your terminal. Built wi
 
 ## How to Play
 
-### Setup
+### Multiplayer Setup
 
 ***REQUIRES PYTHON 3.10 OR NEWER***
 
@@ -47,18 +47,23 @@ A real-time, two-player soccer game playable directly in your terminal. Built wi
    In Terminal 1:
    ```bash
    python3 Server.py
+   # Enter your IP
    ```
 
 2. **Start Player 1 Client**  
    In Terminal 2:
    ```bash
    python3 Client.py
+   # Input '2' to select multiplayer mode.
+   # Enter the same IP as the server
    ```
 
 3. **Start Player 2 Client**  
    In Terminal 3:
    ```bash
    python3 Client.py
+   # Input '2' to select multiplayer mode.
+   # Enter the same IP as the server
    ```
 
 > The game will begin automatically once both players are connected.
