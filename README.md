@@ -40,7 +40,8 @@ A real-time, two-player soccer game playable directly in your terminal. Built wi
 ## How to Play
 
 ### Setup
-Score 5 goals before your opponent does.
+
+***REQUIRES PYTHON 3.10 OR NEWER***
 
 1. **Start the Server**  
    In Terminal 1:
@@ -74,10 +75,14 @@ Score 5 goals before your opponent does.
 
 ---
 
-### ❗ Penalty Rules
+### ❗ Rules
 
+- **Objective:** Score 5 goals before your opponent does.
 - **Passing in the Shooting Phase** → Penalty! Possession switches, ball resets to your goal line.
 - **Shooting in the Passing Phase** → Penalty! Possession switches, ball resets to your goal line.
+- Player 1 always starts with ball ownership.
+- Player that was scored on gets ball next.
+- Player with possession inputs their move first.
 
 ---
 
