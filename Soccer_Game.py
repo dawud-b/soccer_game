@@ -92,9 +92,9 @@ def compare_selections(p1_ownership, shoot_phase, p1_input, p2_input, position):
 
 # Resets the core game state variables to their initial values.
 # Returns a tuple of initial game state: (p1_ownership, shoot_phase, p1_score, p2_score, position)
-def reset_game_logic():
- 
-  p1_ownership = True
+def reset_game_logic(p1_owner):
+  
+  p1_ownership = not p1_owner
   shoot_phase = False
   p1_score = 0
   p2_score = 0
@@ -110,7 +110,8 @@ def solo_mode():
   print("First to 5 goals wins!\n")
   input("Press Enter to start. ")
 
-  p1_ownership, shoot_phase, p1_score, p2_score, position = reset_game_logic()
+  p1_ownership = True
+  _, shoot_phase, p1_score, p2_score, position = reset_game_logic(p1_ownership)
 
   p1_row = 2
   p2_row = 2
@@ -158,7 +159,7 @@ def solo_mode():
       p2_score += 1
       print("\n------------------------------------")
       print("      Player 2 scored a goal!")
-      p1_ownership, shoot_phase, _, _, position = reset_game_logic()
+      p1_ownership, shoot_phase, _, _, position = reset_game_logic(p1_ownership)
       p1_row = 2
       p2_row = 2
       time.sleep(2)
@@ -166,7 +167,7 @@ def solo_mode():
       p1_score += 1
       print("\n------------------------------------")
       print("        You scored a goal!")
-      p1_ownership, shoot_phase, _, _, position = reset_game_logic()
+      p1_ownership, shoot_phase, _, _, position = reset_game_logic(p1_ownership)
       p1_row = 2
       p2_row = 2
       time.sleep(2)

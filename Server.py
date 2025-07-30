@@ -31,7 +31,7 @@ clients = [] # Stores (conn, addr) tuples
 def reset_game_state_server():
     """Resets the game state to initial values using Soccer_Game logic. Assumes game_state_lock is held by caller."""
     global game_state
-    p1_ownership, shoot_phase, p1_score, p2_score, position = Soccer_Game.reset_game_logic()
+    p1_ownership, shoot_phase, p1_score, p2_score, position = Soccer_Game.reset_game_logic(p1_ownership)
     game_state["p1_ownership"] = p1_ownership
     game_state["shoot_phase"] = shoot_phase
     game_state["p1_score"] = p1_score
@@ -140,7 +140,7 @@ def handle_client(conn, addr, player_id):
                             game_state["p2_score"] += 1
                             game_state["position"] = 0
                             game_state["shoot_phase"] = False
-                            game_state["p1_ownership"] = False # P2 gains control
+                            game_state["p1_ownership"] = True # This gets flipped right after, so keep true.
                             game_state["message"] = "Player 2 scored!"
                             game_state["p1_row"] = 2
                             game_state["p2_row"] = 2
@@ -150,7 +150,7 @@ def handle_client(conn, addr, player_id):
                             game_state["p1_score"] += 1
                             game_state["position"] = 0
                             game_state["shoot_phase"] = False
-                            game_state["p1_ownership"] = True # P1 gains control
+                            game_state["p1_ownership"] = False # This gets flipped right after, so keep false.
                             game_state["message"] = "Player 1 scored!"
                             game_state["p1_row"] = 2
                             game_state["p2_row"] = 2
@@ -211,7 +211,7 @@ def handle_client(conn, addr, player_id):
 
         if len(clients) < 2:
             game_state["status"] = "waiting_for_players"
-            game_state["message"] = "A player disconnected. Waiting for players to join..."
+            game_state["message"] = "A player disconnected. Waiting for players to join (ctrl-c to quit)..."
             game_state["p1_input"] = None
             game_state["p2_input"] = None
             game_state["p1_score"] = 0

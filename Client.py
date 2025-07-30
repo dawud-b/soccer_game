@@ -159,7 +159,8 @@ def multiplayer_mode():
                         print("Invalid input.")
         clear_screen()
     except:
-        print(f"Connection to IP {HOST} failed. Check if the server is running.")
+        clear_screen()
+        print(f"Connection to IP {HOST} failed.")
         print("Returning to Menu...")
         time.sleep(2)
         return
