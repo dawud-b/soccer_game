@@ -18,7 +18,7 @@ A real-time, two-player soccer game playable directly in your terminal. Built wi
 
 ### ✅ Requirements
 
-- Python 3.x installed on both machines
+- ***Python 3.10 or newer*** installed on both machines
 - Local or network connection between players
 
 ### 📦 Installation
@@ -40,8 +40,6 @@ A real-time, two-player soccer game playable directly in your terminal. Built wi
 ## How to Play
 
 ### Multiplayer Setup
-
-***REQUIRES PYTHON 3.10 OR NEWER***
 
 1. **Start the Server**  
    In Terminal 1:
