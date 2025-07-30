@@ -4,6 +4,7 @@ import sys
 import os
 from Field_Output_test import print_field
 import time
+from Soccer_Game import solo_mode
 
 valid_inputs = ("1", "2", "3", "4", "5", "6")
 
@@ -156,6 +157,7 @@ def multiplayer_mode():
                             break
                     else:
                         print("Invalid input.")
+        clear_screen()
     except:
         print(f"Connection to IP {HOST} failed. Check if the server is running.")
         print("Returning to Menu...")
@@ -171,7 +173,8 @@ def main():
     while True:
         mode_selection = input("Select a mode (1-3): ")
         if mode_selection == "1":
-            print("Solo mode in progress...")
+            solo_mode()
+            print_menu()
         elif mode_selection == "2":
             multiplayer_mode()
             print_menu()

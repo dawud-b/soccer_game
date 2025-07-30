@@ -3,6 +3,9 @@
 # Author: Dawud Benedict
 
 from Field_Output_test import print_field
+import os
+import random
+import time
 
 # valid inputs
 SHOOTING_INPUTS = ("4", "5", "6")
@@ -15,6 +18,10 @@ PASSING_VALUES = (1, 2, 3)
 #### Player 1 Goal at -3, P1 shoots at +3 ####
 #### Player 2 Goal at +3, P2 shoots at -3 ####
 
+
+# Function to clear the console screen
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 # Validates a player's input string and returns its integer value.
 # This version is for server-side logic, not for direct user input.
@@ -55,7 +62,7 @@ def check_penalty(p1_ownership, shoot_phase, p1_input, p2_input, position):
 from Field_Output_test import print_field
 
 def compare_selections(p1_ownership, shoot_phase, p1_input, p2_input, position):
-  print(f"Game Logic: P1: {p1_input}, P2: {p2_input}")
+  # print(f"Game Logic: P1: {p1_input}, P2: {p2_input}")
 
   if p1_input == p2_input:
     p1_ownership = not p1_ownership
@@ -78,7 +85,7 @@ def compare_selections(p1_ownership, shoot_phase, p1_input, p2_input, position):
   p2_row = p2_input
   if p2_row > 3:
     p2_row = p2_row - 3
-  print_field(p1_row, p2_row, col=position, p1_owner=p1_ownership)
+  # print_field(p1_row, p2_row, col=position, p1_owner=p1_ownership)
 
   return p1_ownership, shoot_phase, position, penalty_message
 
@@ -95,3 +102,80 @@ def reset_game_logic():
   
   return p1_ownership, shoot_phase, p1_score, p2_score, position
 
+#### Solo Mode ####
+def solo_mode():
+  clear_screen()
+  print("#### SOLO MODE ####")
+  print("You're Player 1.")
+  print("First to 5 goals wins!\n")
+  input("Press Enter to start. ")
+
+  p1_ownership, shoot_phase, p1_score, p2_score, position = reset_game_logic()
+
+  p1_row = 2
+  p2_row = 2
+
+  while p1_score < 5 and p2_score < 5:
+    clear_screen()
+    print(f"Score: P1 {p1_score} - {p2_score} P2")
+    print(f"Position: {position} | Ball Owner: {'You' if p1_ownership else 'P2'}\n")
+    # print(f"Game Phase: {'Shooting' if state['shoot_phase'] else 'Passing'}")
+    print_field(p1_row, p2_row, col=position, p1_owner=p1_ownership)
+    print()
+    
+    # Player 1 selection
+    while True:
+      user_input = input("It's YOUR turn!\nEnter your move (Type 'exit' to quit): ")
+      if user_input == "exit":
+        clear_screen()
+        return
+      if user_input in PASSING_INPUTS or user_input in SHOOTING_INPUTS:
+        p1_input = int(user_input)
+        break
+      else:
+        print("Invalid Input. Try again.")
+
+    # Bot selection
+    if shoot_phase:
+      p2_input = random.choice(SHOOTING_VALUES)
+    else:
+      p2_input = random.choice(PASSING_VALUES)
+
+    # Compare Values
+    p1_ownership, shoot_phase, position, penalty_message = compare_selections(p1_ownership, shoot_phase, p1_input, p2_input, position)
+
+    if penalty_message != "":
+      print("\n------------------------------------")
+      print(penalty_message)
+      time.sleep(1)
+
+    # Update player position
+    p1_row = p1_input if p1_input <= 3 else p1_input - 3
+    p2_row = p2_input if p2_input <= 3 else p2_input - 3
+
+    # Check Score
+    if position < -3:
+      p2_score += 1
+      print("\n------------------------------------")
+      print("      Player 2 scored a goal!")
+      p1_ownership, shoot_phase, _, _, position = reset_game_logic()
+      p1_row = 2
+      p2_row = 2
+      time.sleep(2)
+    elif position > 3:
+      p1_score += 1
+      print("\n------------------------------------")
+      print("        You scored a goal!")
+      p1_ownership, shoot_phase, _, _, position = reset_game_logic()
+      p1_row = 2
+      p2_row = 2
+      time.sleep(2)
+
+  if p1_score > p2_score:
+    print("\n---------------------")
+    print("     You Win!\n")
+  else:
+    print("\n---------------------")
+    print("     You Lose :(\n")
+  input("Press Enter to return to menu. ")
+  clear_screen()
