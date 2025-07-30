@@ -112,5 +112,5 @@ After a game ends:
 
 ## Authors
 
-- **Dawud Benedict** – Game Logic, Field Visualization, & Single Player Mode
+- **Dawud Benedict** – Game Logic, Field Visualization, & Single Player Mode 
 - **Gurumanie Singh** – Multiplayer Networking & Client  
