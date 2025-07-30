@@ -6,6 +6,7 @@ A real-time, two-player soccer game playable directly in your terminal. Built wi
 
 ## ✨ Features
 
+- **Single Player Mode** - Single player mode to play against an AI. No need to input an IP address!
 - **Multiplayer Gameplay** – Connect with a friend over a local network to compete in real-time.
 - **Live Field Visualization** – ASCII-based field updates after every move to show player positions and ball location.
 - **Simple Controls** – Input numbers (1–6) to pass, shoot, or defend.
@@ -38,6 +39,18 @@ A real-time, two-player soccer game playable directly in your terminal. Built wi
 ---
 
 ## How to Play
+
+### Single Player Setup
+
+1. In Terminal run:
+   ```bash
+   python3 Client.py
+   ```
+   Make sure you are in the same directory that you download Client.py
+
+2. Select solo mode by pressing '1' then Enter.
+
+3. Start playing against the AI!
 
 ### Multiplayer Setup
 
