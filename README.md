@@ -96,5 +96,5 @@ After a game ends:
 
 ## 👨‍💼 Authors
 
-- **Gurumanie Singh** – Multiplayer Networking & Client View  
 - **Dawud Benedict** – Game Logic & Field Visualization
+- **Gurumanie Singh** – Multiplayer Networking & Client file  
