@@ -3,8 +3,16 @@ import json
 import sys
 import os
 from Field_Output_test import print_field
+import time
 
 valid_inputs = ("1", "2", "3", "4", "5", "6")
+
+def print_menu():
+  print("#### Soccer Game Menu ####\n")
+  print("1. Solo Mode")
+  print("2. Multiplayer Mode")
+  print("3. Exit\n")
+  print("##########################\n")
 
 # Function to clear the console screen
 def clear_screen():
@@ -87,9 +95,12 @@ def display_game_state(state, client_player_id):
     else:
         print(f"It's {state['turn'].upper()}'s turn. Please wait...")
 
-def main():
+
+def multiplayer_mode():
+    clear_screen()
+    print("#### Multiplayer ####\n")
     #################### HOST AND PORT ########################
-    host_input = input("Enter the Host (or press Enter for localhost): ")
+    host_input = input("Enter the Host IP (or press Enter for localhost): ")
     if host_input == "":
         HOST = '127.0.0.1' # localhost
     else:
@@ -97,11 +108,14 @@ def main():
     PORT = 12345
     ###########################################################
 
-    print("Waiting for other player to join...")
+    
     
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         client_socket.connect((HOST, PORT))
+
+        print("Waiting for other player to join...")
+
         initial_state = receive_game_state(client_socket)
         if not initial_state:
             return
@@ -142,8 +156,30 @@ def main():
                             break
                     else:
                         print("Invalid input.")
+    except:
+        print(f"Connection to IP {HOST} failed. Check if the server is running.")
+        print("Returning to Menu...")
+        time.sleep(2)
+        return
     finally:
         client_socket.close()
 
+def main():
+    # Enter menu:
+    clear_screen()
+    print_menu()
+    while True:
+        mode_selection = input("Select a mode (1-3): ")
+        if mode_selection == "1":
+            print("Solo mode in progress...")
+        elif mode_selection == "2":
+            multiplayer_mode()
+            print_menu()
+        elif mode_selection == "3":
+            break
+        else:
+            print("Invalid Selection. Try again.")
+    
+    
 if __name__ == "__main__":
     main()

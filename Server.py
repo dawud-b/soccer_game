@@ -268,7 +268,7 @@ def start_server(host, port):
         server_socket.close()
 
 if __name__ == "__main__":
-    host_input = input("Enter the Host (or press Enter for localhost): ")
+    host_input = input("Enter server IP (or press Enter for localhost): ")
     if host_input == "":
         HOST = '127.0.0.1' # localhost
     else:

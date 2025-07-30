@@ -135,12 +135,12 @@ def print_field(p1_row, p2_row, col, p1_owner):
           +"    |                                                                |")
 
   print("    +––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––+")
-    
-    
 
-# Prints all possible combinations.
-for i in range(-3, 4):
-  for j in range(1, 4):
-    for k in range(1, 4):
-      print_field(p1_row=k, p2_row=j, col=i, p1_owner=True)
-      print_field(p1_row=k, p2_row=j, col=i, p1_owner=False)
+  
+
+# # Test that prints all possible combinations.
+# for i in range(-3, 4):
+#   for j in range(1, 4):
+#     for k in range(1, 4):
+#       print_field(p1_row=k, p2_row=j, col=i, p1_owner=True)
+#       print_field(p1_row=k, p2_row=j, col=i, p1_owner=False)
