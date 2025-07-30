@@ -39,20 +39,21 @@ def display_game_state(state, client_player_id):
     p1_is_you = (client_player_id == "player1")
     p2_is_you = (client_player_id == "player2")
 
-    print(f"Score: Player 1: {state['p1_score']} {'(You)' if p1_is_you else ''} | Player 2: {state['p2_score']} {'(You)' if p2_is_you else ''}")
+    print(f"Player 1: {state['p1_score']} {'(You)' if p1_is_you else ''} | Player 2: {state['p2_score']} {'(You)' if p2_is_you else ''}")
     print(f"Position: {state['position']}")
     print(f"Ball Ownership: {'Player 1' if state['p1_ownership'] else 'Player 2'}")
-    print(f"Game Phase: {'Shooting' if state['shoot_phase'] else 'Passing'}")
+    # print(f"Game Phase: {'Shooting' if state['shoot_phase'] else 'Passing'}")
     print(f"\n--- {state['message']} ---\n")
 
-# Finds the row of the player (1-3, if 4-6 just subtract 3)
+    # Finds the row of the player (1-3, if 4-6 just subtract 3)
+    # Player 1:
     if state['p1_input'] is None:
         p1_row = 2 # middle row
     else:
         p1_row = state['p1_input']
     if p1_row > 3:
         p1_row = p1_row - 3
-
+    # Player 2:
     if state['p2_input'] is None:
         p2_row = 2 # middle row
     else:
@@ -60,26 +61,21 @@ def display_game_state(state, client_player_id):
     if p2_row > 3:
         p2_row = p2_row - 3
 
-    if p1_is_you and state['p1_ownership'] and state['turn']=="player1":        # p1 owns. First move. Let p1 see new p1 and prev p2
+    # Update Players: Player 1's screen
+    if p1_is_you and state['p1_ownership'] and state['turn']=="player2":  # p1 owns, p2 move
         p2_row = state['p2_row']
-    elif p1_is_you and state['p1_ownership']:                                   # p1 owns. Second move. Let p1 see p1 prev and new p2.
+    elif p1_is_you:
         p1_row = state['p1_row']
-    elif p1_is_you and not state['p1_ownership'] and state['turn']=="player2":  # p2 owns. First move. Let p1 see prev p2 and prev p1
         p2_row = state['p2_row']
-        p1_row = state['p1_row']
-    #                                                                           # p2 owns. Second move. Let p1 see p1 and p2 (No change)
 
-    # same for p2
-    if p2_is_you and state['p1_ownership'] and state['turn']=="player1":        # p1 owns. First move. Let p2 see prev p1 and prev p2
-        p2_row = state['p2_row']
+    # # Update Players: Player 2's screen
+    if p2_is_you and not state['p1_ownership'] and state['turn']=="player1":  # p2 owns, p1 move
         p1_row = state['p1_row']
-    elif p2_is_you and not state['p1_ownership'] and state['turn']=="player1":  # p2 owns. Second move. Let p2 see new p1 and prev p2.
-        p2_row = state['p2_row']
-    elif p2_is_you and not state['p1_ownership'] and state['turn']=="player2":  # p2 owns. First move. Let p2 see prev p1 and new p2
+    elif p2_is_you:
         p1_row = state['p1_row']
-    #                                                                           # p1 owns. Second move. Let p2 see p1 and p2 (No change)
+        p2_row = state['p2_row']
 
-    # Print visual field
+    ### Print Players and visual field ###
     has_ball = (state['p1_ownership'] and p1_is_you) or (not state['p1_ownership'] and p2_is_you)
     print_field(col=state['position'], p1_owner=state['p1_ownership'], p1_row=p1_row, p2_row=p2_row)
 
@@ -87,16 +83,21 @@ def display_game_state(state, client_player_id):
         print("\n--- GAME OVER ---")
         print("Type 'reset_game' to play again, or 'exit' to quit.")
     elif state["turn"] == client_player_id:
-        print("It's YOUR turn!\nValid inputs: Pass (1, 2, 3) | Shoot (4, 5, 6)")
+        print("It's YOUR turn!\nType 1, 2, 3 to pass or 4, 5, 6 to shoot.")
     else:
         print(f"It's {state['turn'].upper()}'s turn. Please wait...")
 
 def main():
-    # HOST = '127.0.0.1'
-    HOST = '10.48.190.208'
     #################### HOST AND PORT ########################
+    host_input = input("Enter the Host (or press Enter for localhost): ")
+    if host_input == "":
+        HOST = '127.0.0.1' # localhost
+    else:
+        HOST = host_input.strip()
     PORT = 12345
     ###########################################################
+
+    print("Waiting for other player to join...")
     
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:

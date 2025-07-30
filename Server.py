@@ -136,18 +136,26 @@ def handle_client(conn, addr, player_id):
                             game_state["message"] = penalty_message
 
                         # Check for score
-                        if game_state["position"] > 3:
+                        if game_state["position"] < -3:
                             game_state["p2_score"] += 1
                             game_state["position"] = 0
                             game_state["shoot_phase"] = False
                             game_state["p1_ownership"] = False # P2 gains control
                             game_state["message"] = "Player 2 scored!"
-                        elif game_state["position"] < -3:
+                            game_state["p1_row"] = 2
+                            game_state["p2_row"] = 2
+                            game_state["p1_input"] = 2
+                            game_state["p2_input"] = 2
+                        elif game_state["position"] > 3:
                             game_state["p1_score"] += 1
                             game_state["position"] = 0
                             game_state["shoot_phase"] = False
                             game_state["p1_ownership"] = True # P1 gains control
                             game_state["message"] = "Player 1 scored!"
+                            game_state["p1_row"] = 2
+                            game_state["p2_row"] = 2
+                            game_state["p1_input"] = 2
+                            game_state["p2_input"] = 2
 
                         # Check for win condition
                         if game_state["p1_score"] >= 5:
@@ -260,7 +268,10 @@ def start_server(host, port):
         server_socket.close()
 
 if __name__ == "__main__":
-    # HOST = '127.0.0.1' # Standard loopback interface address (localhost)
-    HOST = '10.48.190.208'
+    host_input = input("Enter the Host (or press Enter for localhost): ")
+    if host_input == "":
+        HOST = '127.0.0.1' # localhost
+    else:
+        HOST = host_input.strip()
     PORT = 12345       # Arbitrary non-privileged port
     start_server(HOST, PORT)

@@ -99,7 +99,7 @@ def print_both_players(p1_owner, col, row):
 
 # main function to print the whole field
 def print_field(p1_row, p2_row, col, p1_owner):
-  print("    +––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––+")
+  print(" P1 +––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––+ P2")
 
   if p1_row == 1 and p2_row == 1:
     print_both_players(p1_owner, col, p1_row)
