@@ -1,6 +1,6 @@
 # ⚽ Terminal Soccer Showdown
 
-A real-time, two-player soccer game playable directly in your terminal. Built with Python sockets for a head-to-head multiplayer experience.
+A terminal soccer game playable in single player or multiplayer. Built with Python sockets for a real-time multiplayer experience.
 
 ---
 
