@@ -1,4 +1,4 @@
-# ⚽ Terminal Soccer
+# ⚽ Terminal Soccer Showdown
 
 A real-time, two-player soccer game playable directly in your terminal. Built with Python sockets for a head-to-head multiplayer experience.
 
@@ -40,7 +40,7 @@ A real-time, two-player soccer game playable directly in your terminal. Built wi
 
 ## How to Play
 
-### Single Player Setup
+### 👤 Single Player Setup
 
 1. In Terminal run:
    ```bash
@@ -52,7 +52,7 @@ A real-time, two-player soccer game playable directly in your terminal. Built wi
 
 3. Start playing against the AI!
 
-### Multiplayer Setup
+### 👥 Multiplayer Setup
 
 1. **Start the Server**  
    In Terminal 1:
@@ -110,7 +110,7 @@ After a game ends:
 
 ---
 
-## 👨‍💼 Authors
+## Authors
 
-- **Dawud Benedict** – Game Logic & Field Visualization
-- **Gurumanie Singh** – Multiplayer Networking & Client file  
+- **Dawud Benedict** – Game Logic, Field Visualization, & Single Player Mode
+- **Gurumanie Singh** – Multiplayer Networking & Client  
